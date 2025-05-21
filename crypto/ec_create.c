@@ -1,4 +1,3 @@
-#include <openssl/obj_mac.h>
 #include "hblk_crypto.h"
 
 #define EC_CURVE_NID NID_secp256k1
