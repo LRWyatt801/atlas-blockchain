@@ -5,10 +5,10 @@
 #include <openssl/ec.h>
 #include <openssl/obj_mac.h>
 
-/***************************** PROVIDED PROTOTYPES ***************************/
+#define EC_PUB_LEN 65 /* EC_KEY public key octet str len - uncompressed */
+#define EC_CURVE NID_secp256k1 /* needed to fix checker compile error */
 
-#define EC_PUB_LEN 65 /* uncompressed */
-#define EC_CURVE NID_secp256k1
+/***************************** PROVIDED PROTOTYPES ***************************/
 
 uint8_t *sha256(int8_t const *s, size_t len,
 		uint8_t digest[SHA256_DIGEST_LENGTH]);
