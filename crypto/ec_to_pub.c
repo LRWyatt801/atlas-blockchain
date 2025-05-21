@@ -1,5 +1,4 @@
 #include "hblk_crypto.h"
-#include <openssl/ec.h>
 
 /**
 * ec_to_pub - extracts the public key from an EC_KEY opaque structure
