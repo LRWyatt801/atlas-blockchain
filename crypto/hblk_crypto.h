@@ -3,6 +3,7 @@
 
 #include <openssl/sha.h>
 #include <openssl/ec.h>
+#include <openssl/obj_mac.h>
 
 /***************************** PROVIDED PROTOTYPES ***************************/
 
