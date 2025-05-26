@@ -4,7 +4,6 @@
 #include <openssl/sha.h>
 #include <openssl/ec.h>
 #include <openssl/obj_mac.h>
-#include <openssl/types.h>
 
 #define EC_PUB_LEN 65 /* EC_KEY public key octet str len - uncompressed */
 #define EC_CURVE NID_secp256k1 /* needed to fix checker compile error */
