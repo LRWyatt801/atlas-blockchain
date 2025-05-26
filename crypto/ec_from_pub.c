@@ -32,7 +32,7 @@ EC_KEY *ec_from_pub(uint8_t const pub[EC_PUB_LEN])
 	if (!EC_POINT_oct2point(group, point, pub, EC_PUB_LEN, NULL))
 		goto clean_up;
 	/* set pub key in EC_KEY */
-	if (!EC_KEY_set_public_key(key,point))
+	if (!EC_KEY_set_public_key(key, point))
 		goto clean_up;
 
 	EC_POINT_free(point);
