@@ -26,17 +26,6 @@ int ec_save(EC_KEY *key, char const *folder)
 	snprintf(priv_path, sizeof(priv_path), "%s/key.pem", folder);
 	snprintf(pub_path, sizeof(pub_path), "%s/pub_key.pem", folder);
 
-	/* write private key */
-	fd = fopen(priv_path, "w+");
-	if (!fd)
-		return (0);
-	if (!PEM_write_ECPrivateKey(fd, key, NULL, NULL, 0, NULL, NULL))
-	{
-		fclose(fd);
-		return (0);
-	}
-	fclose(fd);
-
 	/* write pub key */
 	fd = fopen(pub_path, "w+");
 	if (!fd)
@@ -47,5 +36,16 @@ int ec_save(EC_KEY *key, char const *folder)
 		return (0);
 	}
 	fclose(fd);
-	return (1);
+
+	/* write private key */
+	fd = fopen(priv_path, "w+");
+	if (!fd)
+		return (0);
+	if (!PEM_write_ECPrivateKey(fd, key, NULL, NULL, 0, NULL, NULL))
+	{
+		fclose(fd);
+		return (0);
+	}
+	fclose(fd);
+return (1);
 }
