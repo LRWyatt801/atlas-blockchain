@@ -20,7 +20,6 @@ EC_KEY *ec_load(char const *folder)
 	/* create paths */
 	snprintf(priv_path, sizeof(priv_path), "%s/key.pem", folder);
 	snprintf(pub_path, sizeof(pub_path), "%s/key_pub.pem", folder);
-
 	/* load private key */
 	fd = fopen(priv_path, "r");
 	if (!fd)
@@ -28,8 +27,6 @@ EC_KEY *ec_load(char const *folder)
 	key = PEM_read_ECPrivateKey(fd, NULL, NULL, NULL);
 	if (!key)
 		goto clean_up;
-	fclose(fd);
-
 	/* load public key */
 	fd = fopen(pub_path, "r");
 	if (!fd)
@@ -38,12 +35,10 @@ EC_KEY *ec_load(char const *folder)
 	if (!pub_key)
 		goto clean_up;
 	fclose(fd);
-
 	/* set public key from pub_key into key */
 	if (!EC_KEY_set_public_key(key, EC_KEY_get0_public_key(pub_key)))
 		goto clean_up;
 	EC_KEY_free(pub_key);
-
 	return (key);
 
 clean_up:
