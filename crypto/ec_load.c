@@ -1,7 +1,5 @@
 #include "hblk_crypto.h"
-#include <openssl/ec.h>
 #include <openssl/pem.h>
-#include <openssl/types.h>
 
 /**
 * ec_load - loads an EC_KEY pair from the disk
