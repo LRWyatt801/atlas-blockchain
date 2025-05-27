@@ -19,7 +19,7 @@ int ec_save(EC_KEY *key, char const *folder)
 	FILE *fd = NULL;
 	char priv_path[1024], pub_path[1024];
 
-	mkdir(folder, 0700);
+	mkdir(folder, 0755);
 
 	/* copy folder to paths and concat file name */
 
