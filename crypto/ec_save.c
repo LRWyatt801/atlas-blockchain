@@ -23,8 +23,8 @@ int ec_save(EC_KEY *key, char const *folder)
 
 	/* copy folder to paths and concat file name */
 
-	snprintf(priv_path, sizeof(priv_path), "%s/key.pem", folder);
-	snprintf(pub_path, sizeof(pub_path), "%s/pub_key.pem", folder);
+	snprintf(pub_path, sizeof(pub_path), "%s/key.pem", folder);
+	snprintf(priv_path, sizeof(priv_path), "%s/pub_key.pem", folder);
 
 	/* write pub key */
 	fd = fopen(pub_path, "w+");
