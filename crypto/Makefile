@@ -24,5 +24,10 @@ ec_save-test: ec_save.c ec_from_pub.c ec_to_pub.c ec_create.c $(TESTS)/ec_save-m
 	mkdir -p build
 	$(CC) $(CFLAGS) -o build/$@ $^ $(PROVIDED) $(INCLIBS)
 
+ec_load-test: ec_load.c ec_save.c ec_from_pub.c ec_to_pub.c ec_create.c $(TESTS)/ec_load-main.c
+	mkdir -p build
+	$(CC) $(CFLAGS) -o build/$@ $^ $(PROVIDED) $(INCLIBS)
+
+
 clean:
 	rm -rf build
