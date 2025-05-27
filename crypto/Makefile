@@ -20,5 +20,9 @@ ec_from_pub-test: ec_from_pub.c ec_to_pub.c ec_create.c $(TESTS)/ec_from_pub-mai
 	mkdir -p build
 	$(CC) $(CFLAGS) -o build/$@ $^ $(PROVIDED) $(INCLIBS)
 
+ec_save-test: ec_save.c ec_from_pub.c ec_to_pub.c ec_create.c $(TESTS)/ec_save-main.c
+	mkdir -p build
+	$(CC) $(CFLAGS) -o build/$@ $^ $(PROVIDED) $(INCLIBS)
+
 clean:
 	rm -rf build
