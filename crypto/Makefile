@@ -1,13 +1,13 @@
 CC := gcc
-CFLAGS := -Wall -Wextra -Werror -pedantic  -Wno-deprecated-declarations -std=gnu98
+CFLAGS := -Wall -Wextra -Werror -pedantic  -Wno-deprecated-declarations
 INCLIBS := -lssl -lcrypto
 PROVIDED := provided/_print_hex_buffer.c
 TESTS := ./test
 
 AR := ar rcs
 
-LIB_SRC := sha256.c ec_create.c ec_to_pub.c ec_from_pub.c ec_save.c ec_load.c ec_sign.c ec_verify.c
-LIB_OBJS : $(LIB_SRC:.c=.o)
+LIB_SRC := $(wildcard *.c)
+LIB_OBJS := $(LIB_SRC:.c=.o)
 
 sha256-test: sha256.c $(TESTS)/sha256-main.c
 	mkdir -p build
@@ -35,7 +35,7 @@ ec_load-test: ec_load.c ec_save.c ec_from_pub.c ec_to_pub.c ec_create.c $(TESTS)
 
 # build static library
 libhblk_crypto.a: $(LIB_OBJS)
-	$(AR) $@ $^
+	$(AR) $@ $(LIB_OBJS)
 
 # compile .c to .o
 %.o: %.c
@@ -44,4 +44,4 @@ libhblk_crypto.a: $(LIB_OBJS)
 
 
 clean:
-	rm -rf build libhblk_crpto.a
+	rm -rf build libhblk_crypto.a *.o
