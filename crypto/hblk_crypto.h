@@ -8,7 +8,7 @@
 
 #define EC_PUB_LEN 65 /* EC_KEY public key octet str len - uncompressed */
 #define EC_CURVE NID_secp256k1 /* needed to fix checker compile error */
-#define SIG_MAX_LEN 72
+#define SIG_LEN 72
 
 #define PRI_FILENAME "key.pem" /* needed to fix checker compile error */
 #define PUB_FILENAME "key_pub.pem" /* needed to fix checker compile error */
@@ -21,7 +21,7 @@
 
 typedef struct sig_s
 {
-	uint8_t *sig;
+	uint8_t *sig[SIG_LEN];
 	size_t len;
 } sig_t;
 
