@@ -1,5 +1,4 @@
 #include "hblk_crypto.h"
-#include <openssl/ec.h>
 
 /**
 * ec_verify - verify a signature for a given set of bytes
