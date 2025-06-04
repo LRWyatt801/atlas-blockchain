@@ -3,6 +3,9 @@
 
 #include <openssl/sha.h>
 #include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include <llist.h>
 
@@ -79,5 +82,8 @@ typedef struct block_s
 /************************************PROVIDED PROTOTYPES**********************/
 
 blockchain_t *blockchain_create(void);
+block_t *block_create(block_t const *prev,
+		      int8_t const *data,
+		      uint32_t data_len);
 
 #endif /* _BLOCKCHAIN_H */
