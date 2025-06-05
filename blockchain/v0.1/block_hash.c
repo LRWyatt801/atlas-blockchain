@@ -1,5 +1,5 @@
 #include "blockchain.h"
-#include <string.h>
+#include "../../crypto/hblk_crypto.h"
 
 /**
 * block_hash - computes the hash of a block
@@ -12,20 +12,11 @@
 uint8_t *block_hash(block_t const *block,
 		    uint8_t hash_buf[SHA256_DIGEST_LENGTH])
 {
-	if (!block)
+	if (!block || !hash_buf)
 		return (NULL);
 
-	uint8_t data_buf[sizeof(block_t)];
-	uint8_t *data_buf_pos = data_buf;
 
-	/* copy block->info into data_buf */
-	memcpy(data_buf, &block->info, sizeof(block->info));
-	data_buf_pos += sizeof(block->info);
-	/* copy data.len and data.buffer into data_buf */
-	memcpy(data_buf_pos, &block->data.len, sizeof(block->data.len));
-	data_buf_pos += sizeof(block->data.len);
-	memcpy(data_buf_pos, block->data.buffer, block->data.len);
-	data_buf_pos += block->data.len;
-
-	return (SHA256((unsigned char *)data_buf, sizeof(block_t), hash_buf));
+	return (sha256((int8_t *)block,
+		       sizeof(block->info) + block->data.len,
+		       hash_buf));
 }
