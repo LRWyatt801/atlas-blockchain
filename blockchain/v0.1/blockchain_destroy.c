@@ -19,6 +19,13 @@ void blockchain_destroy(blockchain_t *blockchain)
 	free(blockchain);
 }
 
+/**
+* node_destroy - a helper function to destroy node
+* @node: node to be destroyed
+*
+* Return: n/a
+*/
+
 static void node_destroy(llist_node_t node)
 {
 	block_destroy((block_t *)node);
