@@ -1,5 +1,4 @@
 #include "blockchain.h"
-#include "../../crypto/hblk_crypto.h"
 #include <string.h>
 
 /**
@@ -28,5 +27,5 @@ uint8_t *block_hash(block_t const *block,
 	memcpy(data_buf_pos, block->data.buffer, block->data.len);
 	data_buf_pos += block->data.len;
 
-	return (sha256((int8_t *)data_buf, sizeof(block_t), hash_buf));
+	return (SHA256((unsigned char *)data_buf, sizeof(block_t), hash_buf));
 }
