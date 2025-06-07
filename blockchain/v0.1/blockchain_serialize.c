@@ -45,6 +45,7 @@ int blockchain_serialize(blockchain_t const *blockchain, char const *path)
 	if (llist_for_each(blockchain->chain, block_serialize, fd) != 0)
 		CLOSE_FILE;
 
+	fclose(fd);
 	return (0);
 }
 
