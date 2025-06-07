@@ -7,7 +7,6 @@
 #define HBLK_ENDIAN (_get_endianness() == 1 ? 1 : 2)
 #define MAX_BUFF_SIZE 1116 /* size of all block at max size */
 #define BUFF_SIZE(len) (92 + len)
-#define CLOSE_FILE do { fclose(fd); return(-1); } while (0);
 
 static int block_serialize(llist_node_t, unsigned int, void *);
 
@@ -40,18 +39,23 @@ int blockchain_serialize(blockchain_t const *blockchain, char const *path)
 	memcpy(hdr_pos, &block_cnt, 4);
 
 	if (fwrite(header, 1, 12, fd) != 12)
-		CLOSE_FILE;
+		goto close_file_err;
 
 	if (llist_for_each(blockchain->chain, block_serialize, fd) != 0)
-		CLOSE_FILE;
+		goto close_file_err;
 
 	fclose(fd);
 	return (0);
+
+close_file_err:
+	fclose(fd);
+	return (-1);
 }
 
 /**
 * block_serialize - serialize a block
 * @block: pointer to the block to write
+* @index: index of node in list NOTE: this unused
 * @fd: file descriptor
 *
 * Return: 0 on success, otherwise 1
