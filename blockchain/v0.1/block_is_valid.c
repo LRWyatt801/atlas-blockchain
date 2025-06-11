@@ -41,7 +41,8 @@ int block_is_valid(block_t const *block, block_t const *prev_block)
 	if (block->info.index == 0 && genesis_is_valid(block) != 0)
 		return (NOT_VALID);
 
-	if (block->info.index != prev_block->info.index + 1)
+	if (block->info.index > 0 &&
+	    block->info.index != prev_block->info.index + 1)
 		return (NOT_VALID);
 
 	block_hash(prev_block, hash_buf);
