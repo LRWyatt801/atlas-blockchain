@@ -41,5 +41,7 @@ libhblk_blockchain_v0.1.a: $(LIB_OBJS)
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
+.INTERMEDIATE: $(LIB_OBJS)
+
 clean:
 	rm -f blockchain_create-test block_create-test block_destroy-test blockchain_destroy-test block_hash-test blockchain_serialize-test blockchain_deserialize-test block_is_valid-test save.hblk *.o *.a
