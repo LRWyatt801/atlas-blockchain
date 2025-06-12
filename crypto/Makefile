@@ -41,7 +41,7 @@ libhblk_crypto.a: $(LIB_OBJS)
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-
+.INTERMEDIATE: $(LIB_OBJS)
 
 clean:
 	rm -rf build libhblk_crypto.a *.o
