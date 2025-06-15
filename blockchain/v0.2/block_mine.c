@@ -11,7 +11,7 @@
 void block_mine(block_t *block)
 {
 	uint8_t hash[SHA256_DIGEST_LENGTH];
-	uint64_t nonce;
+	uint64_t nonce = 0;
 
 	while (1)
 	{
