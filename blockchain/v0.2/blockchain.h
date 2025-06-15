@@ -14,6 +14,8 @@
 	"\x0c\x8e\x00\x09\xc8\x17\xf2\xb1\xd3\xd7\xff\x2f\x04\x51\x58\x03"
 #define HOLBERTON_DATA "Holberton School"
 #define GEN_TIMESTAMP 1537578000
+#define BLOCK_GENERATION_INTERVAL 1
+#define DIFFICULTY_ADJUSTMENT_INTERVAL 5
 
 #define BLOCKCHAIN_DATA_MAX 1024
 
@@ -101,5 +103,6 @@ int block_is_valid(block_t const *block, block_t const *prev_block);
 int hash_matches_difficulty(uint8_t const hash[SHA256_DIGEST_LENGTH],
 			    uint32_t difficulty);
 void block_mine(block_t *block);
+uint32_t blockchain_difficulty(blockchain_t const *blockchain);
 
 #endif /* _BLOCKCHAIN_H */
