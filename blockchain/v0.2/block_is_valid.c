@@ -21,8 +21,7 @@ static int genesis_is_valid(block_t const *);
 * The computed hash of the previous block must match
 *	the reference one stored in block
 * The computed hash of the Block must match the one it stores
-* You don’t have to worry about the timestamp and the difficulty for
-*	this iteration of the Blockchain.
+* Block hash must match it's difficulty
 * The Block data length must not exceed BLOCKCHAIN_DATA_MAX
 *
 * Return: 0 on success, otherwise -1
@@ -60,6 +59,9 @@ int block_is_valid(block_t const *block, block_t const *prev_block)
 
 	block_hash(block, hash_buf);
 	if (memcmp(block->hash, hash_buf, SHA256_DIGEST_LENGTH) != 0)
+		return (NOT_VALID);
+
+	if (!hash_matches_difficulty(block->hash, block->info.difficulty))
 		return (NOT_VALID);
 
 	if (block->data.len > BLOCKCHAIN_DATA_MAX)
