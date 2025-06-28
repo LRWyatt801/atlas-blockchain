@@ -24,11 +24,13 @@
 /**
  * struct blockchain_s - Blockchain structure
  *
- * @chain: Linked list of pointers to block_t
+ * @chain:   Linked list of Blocks
+ * @unspent: Linked list of unspent transaction outputs
  */
 typedef struct blockchain_s
 {
-	llist_t     *chain;
+    llist_t     *chain;
+    llist_t     *unspent;
 } blockchain_t;
 
 /**
@@ -75,15 +77,17 @@ typedef struct block_data_s
 /**
  * struct block_s - Block structure
  *
- * @info: Block info
- * @data: Block data
- * @hash: 256-bit digest of the Block, to ensure authenticity
+ * @info:         Block info
+ * @data:         Block data
+ * @transactions: List of transactions
+ * @hash:         256-bit digest of the Block, to ensure authenticity
  */
 typedef struct block_s
 {
-	block_info_t    info; /* This must stay first */
-	block_data_t    data; /* This must stay second */
-	uint8_t	    hash[SHA256_DIGEST_LENGTH];
+    block_info_t    info; /* This must stay first */
+    block_data_t    data; /* This must stay second */
+    llist_t     *transactions;
+    uint8_t     hash[SHA256_DIGEST_LENGTH];
 } block_t;
 
 
@@ -100,9 +104,5 @@ uint8_t *block_hash(block_t const *block,
 int blockchain_serialize(blockchain_t const *blockchain, char const *path);
 blockchain_t *blockchain_deserialize(char const *path);
 int block_is_valid(block_t const *block, block_t const *prev_block);
-int hash_matches_difficulty(uint8_t const hash[SHA256_DIGEST_LENGTH],
-			    uint32_t difficulty);
-void block_mine(block_t *block);
-uint32_t blockchain_difficulty(blockchain_t const *blockchain);
 
 #endif /* _BLOCKCHAIN_H */

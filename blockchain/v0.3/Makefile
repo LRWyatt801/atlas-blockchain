@@ -1,0 +1,5 @@
+clean:
+	rm -f transaction/tx_out_create-test
+
+tx_out_create-t: transaction/tx_out_create.c transaction/test/tx_out_create-main.c
+	gcc -Wall -Wextra -Werror -pedantic -Wno-deprecated-declarations -g3 -I. -Itransaction/ -Iprovided/ -I../../crypto -o transaction/tx_out_create-test transaction/tx_out_create.c provided/_print_hex_buffer.c transaction/test/tx_out_create-main.c -L../../crypto -lhblk_crypto -lllist -lssl -lcrypto -pthread
