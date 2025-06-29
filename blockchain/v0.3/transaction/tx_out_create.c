@@ -1,9 +1,5 @@
 #include "transaction.h"
 
-#include <stdint.h>
-#include <stdlib.h>
-#include <string.h>
-
 /**
 * tx_out_create - allocates and inititializes a transaction output structure
 * @amount: is the amount of the transaction
