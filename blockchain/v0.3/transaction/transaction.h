@@ -3,6 +3,8 @@
 
 #include <openssl/sha.h>
 #include <stdint.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include <llist.h>
 #include "hblk_crypto.h"
@@ -80,5 +82,9 @@ typedef struct unspent_tx_out_s
 /********************************** PROVIDED PROTOTYPES **********************/
 
 tx_out_t *tx_out_create(uint32_t amount, uint8_t const pub[EC_PUB_LEN]);
+unspent_tx_out_t *unspent_tx_out_create(
+	uint8_t block_hash[SHA256_DIGEST_LENGTH],
+	uint8_t tx_id[SHA256_DIGEST_LENGTH],
+	tx_out_t const *out);
 
 #endif /* _TRANSACTION_H */
