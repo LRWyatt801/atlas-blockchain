@@ -19,14 +19,15 @@ uint8_t *transaction_hash(transaction_t const *transaction,
 {
 	uint8_t *tx_buffer;
 	int input_cnt, output_cnt;
+	size_t total_size;
 
 	if (!transaction)
 		return (NULL);
 
 	input_cnt = llist_size(transaction->inputs);
 	output_cnt = llist_size(transaction->outputs);
-
-	tx_buffer = malloc(INPUT_SIZE(input_cnt) + OUTPUT_SIZE(output_cnt));
+	total_size = INPUT_SIZE(input_cnt) + OUTPUT_SIZE(output_cnt);
+	tx_buffer = malloc(total_size);
 	if (!tx_buffer)
 		return (NULL);
 
@@ -34,7 +35,8 @@ uint8_t *transaction_hash(transaction_t const *transaction,
 	llist_for_each(transaction->outputs, output_cpy,
 		       &tx_buffer[INPUT_SIZE(input_cnt)]);
 
-	SHA256(tx_buffer, sizeof(tx_buffer), hash_buf);
+	SHA256(tx_buffer, total_size, hash_buf);
+	free(tx_buffer);
 	return (hash_buf);
 }
 
