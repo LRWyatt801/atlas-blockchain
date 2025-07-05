@@ -69,12 +69,12 @@ static int input_cpy(llist_node_t node, unsigned int index, void *buffer)
 static int output_cpy(llist_node_t node, unsigned int index, void *buffer)
 {
 	uint8_t pos;
-	unspent_tx_out_t *out;
+	tx_out_t *out;
 
 	out = node;
 
 	pos = OUTPUT_SIZE(index);
-	memcpy(&((uint8_t *)buffer)[pos], out->block_hash, 32);
+	memcpy(&((uint8_t *)buffer)[pos], out->hash, 32);
 
 	return (0);
 }
