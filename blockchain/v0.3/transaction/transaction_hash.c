@@ -14,7 +14,8 @@ static int output_cpy(llist_node_t, unsigned int, void *);
 * Return: pointer to hash_buf
 */
 
-uint8_t *transaction_hash(transaction_t const *transaction, uint8_t hash_buf[SHA256_DIGEST_LENGTH])
+uint8_t *transaction_hash(transaction_t const *transaction,
+			  uint8_t hash_buf[SHA256_DIGEST_LENGTH])
 {
 	uint8_t *tx_buffer;
 	int input_cnt, output_cnt;
@@ -30,7 +31,8 @@ uint8_t *transaction_hash(transaction_t const *transaction, uint8_t hash_buf[SHA
 		return (NULL);
 
 	llist_for_each(transaction->inputs, input_cpy, tx_buffer);
-	llist_for_each(transaction->outputs, output_cpy, &tx_buffer[INPUT_SIZE(input_cnt)]);
+	llist_for_each(transaction->outputs, output_cpy,
+		       &tx_buffer[INPUT_SIZE(input_cnt)]);
 
 	SHA256(tx_buffer, sizeof(tx_buffer), hash_buf);
 	return (hash_buf);
@@ -38,6 +40,8 @@ uint8_t *transaction_hash(transaction_t const *transaction, uint8_t hash_buf[SHA
 
 /**
 * input_cpy - copys transaction inputs to buffer
+* @node: node to copy
+* @index: index of node
 * @buffer: buffer to copy to
 *
 * Return: NULL
@@ -56,7 +60,7 @@ static int input_cpy(llist_node_t node, unsigned int index, void *buffer)
 /**
 * output_cpy - copys transaction output to buffer
 * @node: node to copy
-* @index: index of node NOTE this value is not used
+* @index: index of node
 * @buffer: buffer to copy to
 *
 * Return: 0 on success, -1 on fialure
