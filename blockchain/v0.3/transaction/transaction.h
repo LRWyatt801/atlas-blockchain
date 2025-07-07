@@ -9,6 +9,8 @@
 #include <llist.h>
 #include "../../../crypto/hblk_crypto.h"
 
+#define SIG_MAX_LEN 72
+
 /********************************** PROVIDED STRUCTS *************************/
 
 /**
