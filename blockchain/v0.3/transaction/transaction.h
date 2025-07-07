@@ -98,4 +98,26 @@ transaction_t *transaction_create(EC_KEY const *sender,
 				  uint32_t amount,
 				  llist_t *all_unspent);
 
+/*****************************************************************************/
+
+/**
+ * struct wallet_s - a struct containing information for a transaction
+ * @sender_pub_key: public key for sender
+ * @sender_key: EC_KEY structure for sender
+ * @output_amount: the amount that is due/being sent to reciever
+ * @input_amount: the amount being paid by sender
+ * @transaction: transaction_t struct to be built and returned
+ * @all_unspent: all unspent outputs in chain
+ */
+
+typedef struct wallet_s
+{
+	uint8_t sender_pub_key[EC_PUB_LEN];
+	EC_KEY const *sender_key;
+	uint32_t output_amount;
+	uint32_t input_amount;
+	transaction_t *transaction;
+	llist_t *all_unspent;
+} wallet_t;
+
 #endif /* _TRANSACTION_H */
