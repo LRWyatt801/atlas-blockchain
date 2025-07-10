@@ -10,6 +10,7 @@
 #include "../../../crypto/hblk_crypto.h"
 
 #define SIG_MAX_LEN 72
+#define COINBASE_AMOUNT 50
 
 /********************************** PROVIDED STRUCTS *************************/
 
@@ -101,6 +102,7 @@ transaction_t *transaction_create(EC_KEY const *sender,
 				  llist_t *all_unspent);
 int transaction_is_valid(transaction_t const *transaction,
 			 llist_t *all_unspent);
+transaction_t *coinbase_create(EC_KEY const *receiver, uint32_t block_index);
 
 /*****************************************************************************/
 
