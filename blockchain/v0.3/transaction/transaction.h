@@ -129,6 +129,7 @@ typedef struct wallet_s
  * @all_unspnt: pointer to list of all unspent
  * @input_total: total of all inputs
  * @output_total: total of all outputs
+ * @tx_id: id of the transaction that is being validated
  */
 
 typedef struct transaction_data_s
