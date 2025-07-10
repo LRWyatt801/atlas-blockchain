@@ -99,6 +99,8 @@ transaction_t *transaction_create(EC_KEY const *sender,
 				  EC_KEY const *receiver,
 				  uint32_t amount,
 				  llist_t *all_unspent);
+int transaction_is_valid(transaction_t const *transaction,
+			 llist_t *all_unspent);
 
 /*****************************************************************************/
 
@@ -121,5 +123,19 @@ typedef struct wallet_s
 	transaction_t *transaction;
 	llist_t *all_unspent;
 } wallet_t;
+
+/**
+ * struct transaction_data_s - struct containing data to verify transaction
+ * @all_unspnt: pointer to list of all unspent
+ * @input_total: total of all inputs
+ * @output_total: total of all outputs
+ */
+
+typedef struct transaction_data_s
+{
+	llist_t *all_unspnt;
+	int input_total;
+	int output_total;
+} transaction_data_t;
 
 #endif /* _TRANSACTION_H */
