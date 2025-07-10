@@ -136,6 +136,7 @@ typedef struct transaction_data_s
 	llist_t *all_unspnt;
 	int input_total;
 	int output_total;
+	uint8_t tx_id[SHA256_DIGEST_LENGTH];
 } transaction_data_t;
 
 #endif /* _TRANSACTION_H */

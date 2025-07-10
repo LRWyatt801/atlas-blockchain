@@ -20,6 +20,7 @@ int transaction_is_valid(transaction_t const *transaction, llist_t *all_unspent)
 	data.all_unspnt = all_unspent;
 	data.input_total = 0;
 	data.output_total = 0;
+	memcpy(data.tx_id, transaction->id, SHA256_DIGEST_LENGTH);
 
 	/* check if transaction->id matchs the hash of transaction */
 	transaction_hash(transaction, hash);
@@ -54,6 +55,7 @@ static int check_inputs(llist_node_t node, unsigned int index, void *data)
 	(void)index;
 	tx_in_t *crnt_in = node;
 	transaction_data_t *tx_data = data;
+	int valid_sig = 0;
 
 	/* find matching unspent_out */
 	unspent_tx_out_t *unspent = llist_find_node(tx_data->all_unspnt, match_input, crnt_in);
@@ -70,7 +72,8 @@ static int check_inputs(llist_node_t node, unsigned int index, void *data)
 	{
 		return (1);
 	}
-	if (!ec_verify(unspent_key, crnt_in->tx_id, SHA256_DIGEST_LENGTH, &crnt_in->sig))
+	valid_sig = ec_verify(unspent_key, tx_data->tx_id, SHA256_DIGEST_LENGTH, &crnt_in->sig);
+	if (!valid_sig)
 	{
 		return (1);
 	}
