@@ -55,21 +55,22 @@ static int check_inputs(llist_node_t node, unsigned int index, void *data)
 	tx_in_t *crnt_in = node;
 	transaction_data_t *tx_data = data;
 
+	/* find matching unspent_out */
 	unspent_tx_out_t *unspent = llist_find_node(tx_data->all_unspnt, match_input, crnt_in);
 	EC_KEY *unspent_key = NULL;
-
 	/* check if a matching unspent was found */
 	if (unspent == NULL)
 	{
 		return (1);
 	}
 
+	/* get the key of the unspent */
 	unspent_key = ec_from_pub(unspent->out.pub);
 	if (!unspent_key)
 	{
 		return (1);
 	}
-	if (ec_verify(unspent_key, crnt_in->tx_id, SHA256_DIGEST_LENGTH, &crnt_in->sig))
+	if (!ec_verify(unspent_key, crnt_in->tx_id, SHA256_DIGEST_LENGTH, &crnt_in->sig))
 	{
 		return (1);
 	}
@@ -114,5 +115,5 @@ static int calc_output_total(llist_node_t node, unsigned int index, void *data)
 	tx_out_t *crnt_out = node;
 
 	tx_data->output_total += crnt_out->amount;
-	return (1);
+	return (0);
 }
