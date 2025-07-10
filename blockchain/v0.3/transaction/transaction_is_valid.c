@@ -51,6 +51,7 @@ int transaction_is_valid(transaction_t const *transaction, llist_t *all_unspent)
 
 static int check_inputs(llist_node_t node, unsigned int index, void *data)
 {
+	(void)index;
 	tx_in_t *crnt_in = node;
 	transaction_data_t *tx_data = data;
 
