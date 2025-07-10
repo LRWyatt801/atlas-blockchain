@@ -69,7 +69,7 @@ static int check_inputs(llist_node_t node, unsigned int index, void *data)
 	{
 		return (1);
 	}
-	if (!ec_verify(unspent_key, crnt_in->tx_id, SHA256_DIGEST_LENGTH, &crnt_in->sig))
+	if (ec_verify(unspent_key, crnt_in->tx_id, SHA256_DIGEST_LENGTH, &crnt_in->sig))
 	{
 		return (1);
 	}
