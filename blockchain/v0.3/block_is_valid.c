@@ -1,6 +1,4 @@
 #include "blockchain.h"
-#include "transaction/transaction.h"
-#include <llist.h>
 
 #define VALID 0
 #define NOT_VALID -1
@@ -12,6 +10,7 @@ static int transaction_validation(llist_node_t, unsigned int, void *);
 * block_is_valid - checks the validity of a block
 * @block: block to check
 * @prev_block: previous block in the chain
+* @all_unspent: all unspent transaction out
 *
 * block should not be NULL
 * prev_block should be NULL ONLY if block‘s index is 0
@@ -35,10 +34,8 @@ int block_is_valid(block_t const *block, block_t const *prev_block,
 
 	if (!block)
 		return (NOT_VALID);
-
 	if (!prev_block && block->info.index != 0)
 		return (NOT_VALID);
-
 	if (block->info.index == 0)
 	{
 		if (genesis_is_valid(block) != 0)
@@ -46,31 +43,24 @@ int block_is_valid(block_t const *block, block_t const *prev_block,
 		else
 			return (VALID);
 	}
-
 	if (block->info.index != prev_block->info.index + 1)
 		return (NOT_VALID);
-
-	block_hash(prev_block, hash_buf);
-	if (memcmp(prev_block->hash, hash_buf, SHA256_DIGEST_LENGTH) != 0)
-		return (NOT_VALID);
-
 	if (memcmp(prev_block->hash,
 		   block->info.prev_hash,
 		   SHA256_DIGEST_LENGTH) != 0)
 		return (NOT_VALID);
-
 	block_hash(block, hash_buf);
 	if (memcmp(block->hash, hash_buf, SHA256_DIGEST_LENGTH) != 0)
 		return (NOT_VALID);
-
 	if (!hash_matches_difficulty(block->hash, block->info.difficulty))
 		return (NOT_VALID);
-
 	if (block->data.len > BLOCKCHAIN_DATA_MAX)
 		return (NOT_VALID);
-	if (!coinbase_is_valid((transaction_t *)llist_get_head(block->transactions), block->info.index))
+	if (!coinbase_is_valid((transaction_t *)llist_get_head(
+		block->transactions), block->info.index))
 		return (NOT_VALID);
-	if (llist_for_each(block->transactions, transaction_validation, all_unspent))
+	if (llist_for_each(block->transactions,
+		transaction_validation, all_unspent))
 		return (NOT_VALID);
 	return (VALID);
 }
