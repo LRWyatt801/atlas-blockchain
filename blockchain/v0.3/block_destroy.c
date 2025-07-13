@@ -11,6 +11,6 @@ void block_destroy(block_t *block)
 {
 	if (!block)
 		return;
-
+	llist_destroy(block->transactions, 1, NULL);
 	free(block);
 }

@@ -1,5 +1,6 @@
 #include "blockchain.h"
 
+#include <llist.h>
 #include <openssl/sha.h>
 #include <time.h>
 
@@ -25,6 +26,13 @@ block_t *block_create(block_t const *prev,
 	if (!block)
 		perror("block_create: block allocation err");
 
+	/* initialize transaction */
+	block->transactions = llist_create(MT_SUPPORT_FALSE);
+	if (!block->transactions)
+	{
+		free(block);
+		return (NULL);
+	}
 	/* block info */
 	block->info.index = prev->info.index + 1;
 	block->info.difficulty = 0;
