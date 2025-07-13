@@ -25,7 +25,10 @@ uint8_t *block_hash(block_t const *block,
 		num_tx = llist_size(block->transactions);
 
 	block_size = sizeof(block->info) + block->data.len;
-	buff_size = block_size + TX_SIZE(num_tx); 
+	buff_size = block_size + TX_SIZE(num_tx);
+	buff = malloc(buff_size);
+	if (!buff)
+		return (NULL);
 
 	memcpy(buff, block, block_size);
 	llist_for_each(block->transactions, copy_tx, buff + block_size);
