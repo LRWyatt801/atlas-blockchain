@@ -1,9 +1,5 @@
 #include "blockchain.h"
 
-#include <llist.h>
-#include <openssl/sha.h>
-#include <time.h>
-
 /**
 * block_create - creates a block structure and initializes it
 * @prev: a pointer to the previous block in the blockchain
@@ -26,13 +22,6 @@ block_t *block_create(block_t const *prev,
 	if (!block)
 		perror("block_create: block allocation err");
 
-	/* initialize transaction */
-	block->transactions = llist_create(MT_SUPPORT_FALSE);
-	if (!block->transactions)
-	{
-		free(block);
-		return (NULL);
-	}
 	/* block info */
 	block->info.index = prev->info.index + 1;
 	block->info.difficulty = 0;
@@ -46,6 +35,6 @@ block_t *block_create(block_t const *prev,
 
 	/* block hash */
 	memset(block->hash, 0, SHA256_DIGEST_LENGTH);
-
+	block->transactions = llist_create(MT_SUPPORT_FALSE);
 	return (block);
 }
