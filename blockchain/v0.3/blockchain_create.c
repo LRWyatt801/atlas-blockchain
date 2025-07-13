@@ -1,10 +1,5 @@
 #include "blockchain.h"
-
 #include <llist.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
 
 static block_t *create_genesis(void);
 
@@ -23,8 +18,11 @@ blockchain_t *blockchain_create(void)
 		return (NULL);
 
 	new_chain->chain = llist_create(MT_SUPPORT_FALSE);
-	if (!new_chain->chain)
+	new_chain->unspent = llist_create(MT_SUPPORT_FALSE);
+	if (!new_chain->chain || !new_chain->unspent)
 	{
+		if (new_chain->chain)
+			llist_destroy(new_chain->chain, 0, NULL);
 		free(new_chain);
 		perror("blockchain_create: list creation err");
 	}
@@ -37,7 +35,6 @@ blockchain_t *blockchain_create(void)
 	}
 
 	llist_add_node(new_chain->chain, genesis, ADD_NODE_REAR);
-
 	return (new_chain);
 }
 
