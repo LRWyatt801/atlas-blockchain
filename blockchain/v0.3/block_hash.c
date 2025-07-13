@@ -30,7 +30,10 @@ uint8_t *block_hash(block_t const *block,
 	memcpy(buff, block, block_size);
 	llist_for_each(block->transactions, copy_tx, buff + block_size);
 
-	return (SHA256(buff, buff_size, hash_buf));
+	SHA256(buff, buff_size, hash_buf);
+	free(buff);
+
+	return (hash_buf);
 }
 
 /**
