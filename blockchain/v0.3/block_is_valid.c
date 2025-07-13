@@ -1,11 +1,12 @@
 #include "blockchain.h"
-#include <openssl/sha.h>
-#include <stdint.h>
+#include "transaction/transaction.h"
+#include <llist.h>
 
 #define VALID 0
 #define NOT_VALID -1
 
 static int genesis_is_valid(block_t const *);
+static int transaction_validation(llist_node_t, unsigned int, void *);
 
 /**
 * block_is_valid - checks the validity of a block
@@ -27,7 +28,8 @@ static int genesis_is_valid(block_t const *);
 * Return: 0 on success, otherwise -1
 */
 
-int block_is_valid(block_t const *block, block_t const *prev_block)
+int block_is_valid(block_t const *block, block_t const *prev_block,
+		   llist_t *all_unspent)
 {
 	uint8_t hash_buf[SHA256_DIGEST_LENGTH];
 
@@ -66,6 +68,10 @@ int block_is_valid(block_t const *block, block_t const *prev_block)
 
 	if (block->data.len > BLOCKCHAIN_DATA_MAX)
 		return (NOT_VALID);
+	if (!coinbase_is_valid((transaction_t *)llist_get_head(block->transactions), block->info.index))
+		return (NOT_VALID);
+	if (llist_for_each(block->transactions, transaction_validation, all_unspent))
+		return (NOT_VALID);
 	return (VALID);
 }
 
@@ -91,4 +97,25 @@ static int genesis_is_valid(block_t const *block)
 	    memcmp(block->hash, HOLBERTON_HASH, SHA256_DIGEST_LENGTH) != 0)
 		return (NOT_VALID);
 	return (VALID);
+}
+
+/**
+* transaction_validation - validates a transaction
+* @node: current transaction list node
+* @index: index of node
+* @all_unspent: all unspent out
+*
+* Return: 0 on success, 1 otherwise
+*/
+
+static int transaction_validation(llist_node_t node, unsigned int index,
+				  void *all_unspent)
+{
+	transaction_t *transaction = node;
+
+	if (index == 0)
+		return (0);
+	if (!transaction_is_valid(transaction, all_unspent))
+		return (1);
+	return (0);
 }
